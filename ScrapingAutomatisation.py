@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 # Set up the WebDriver
-username = "AppTableTop"
-password = "k!rWuTub&&!gB4W"
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 
 options = webdriver.ChromeOptions()
 options.add_argument('--headless')
