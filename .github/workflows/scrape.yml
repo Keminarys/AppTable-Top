@@ -27,10 +27,10 @@ jobs:
         pip install selenium beautifulsoup4 pandas
 
     - name: Run scraping script
-      env: 
-          USERNAME: ${{ secrets.USERNAME }} 
-          PASSWORD: ${{ secrets.PASSWORD }}
       run: python ScrapingAutomatisation.py
+      env: 
+        USERNAME: ${{ secrets.USERNAME }} 
+        PASSWORD: ${{ secrets.PASSWORD }}
       
     - name: Save output as CSV
       run: python -c "import pandas as pd; df = pd.read_pickle('games.pkl'); df.to_csv('games.csv', index=False)"
