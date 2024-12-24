@@ -33,6 +33,12 @@ driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
 wait.until(EC.url_changes("https://boardgamegeek.com/login"))
 
 # Function to scrape page data
+def checkType(x): 
+  try: 
+    return float(x) 
+  except (ValueError, TypeError): 
+    return 0
+
 def scrape_page(page_number):
     driver.get(f"{url_base}{page_number}")
     soup = BeautifulSoup(driver.page_source, 'html.parser')
@@ -41,8 +47,8 @@ def scrape_page(page_number):
     for row in rows:
         game_name = row.find('a', class_='primary').text.strip() if row.find('a', class_='primary') else 'None'
         description_short = row.find('p', class_='smallefont dull').text.strip() if row.find('p', class_='smallefont dull') else 'None'
-        geek_rating = float(row.find('td', {'class': 'collection_bggrating'}).text.strip()) if row.find('td', {'class': 'collection_bggrating'}).text.strip().replace('.','',1).isdigit() else 0
-        avg_rating = float(row.find_all('td', {'class': 'collection_bggrating'})[1].text.strip()) if len(row.find_all('td', {'class': 'collection_bggrating'})) > 1 else 0
+        geek_rating = checkType(row.find('td', {'class': 'collection_bggrating'}).text.strip()) if row.find('td', {'class': 'collection_bggrating'}).text.strip().replace('.','',1).isdigit() else 0
+        avg_rating = checkType(row.find_all('td', {'class': 'collection_bggrating'})[1].text.strip()) if len(row.find_all('td', {'class': 'collection_bggrating'})) > 1 else 0
         url = row.find('a', class_='primary')['href'] if row.find('a', class_='primary') else 'None'
         
         games.append([game_name, description_short, geek_rating, avg_rating, url])
