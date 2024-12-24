@@ -41,7 +41,7 @@ def scrape_page(page_number):
     for row in rows:
         game_name = row.find('a', class_='primary').text.strip() if row.find('a', class_='primary') else 'None'
         description_short = row.find('p', class_='smallefont dull').text.strip() if row.find('p', class_='smallefont dull') else 'None'
-        geek_rating = float(row.find('td', {'class': 'collection_bggrating'}).text.strip()) if row.find('td', {'class': 'collection_bggrating'}) else 0
+        geek_rating = float(row.find('td', {'class': 'collection_bggrating'}).text.strip()) if row.find('td', {'class': 'collection_bggrating'}).text.strip().replace('.','',1).isdigit() else 0
         avg_rating = float(row.find_all('td', {'class': 'collection_bggrating'})[1].text.strip()) if len(row.find_all('td', {'class': 'collection_bggrating'})) > 1 else 0
         url = row.find('a', class_='primary')['href'] if row.find('a', class_='primary') else 'None'
         
